@@ -2,12 +2,19 @@ package main
 
 import (
 	"awesomeProject/pkg/transport"
+	"fmt"
+	log "github.com/sirupsen/logrus"
 	"net/http"
+	"os"
 )
 
-func main() {
+const serverUrl = ":8000"
 
+func main() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	log.WithFields(log.Fields{"url": serverUrl}).Info("server start")
 	r := transport.Router()
-	http.ListenAndServe(":8000", r)
+	fmt.Println(http.ListenAndServe(serverUrl, r))
 
 }
