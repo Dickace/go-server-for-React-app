@@ -9,8 +9,8 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 
-	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Print("Hi World!")
+	http.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprintf(w, "Hi World!")
 	})
 
 	http.ListenAndServe(":"+port, nil)
