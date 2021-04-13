@@ -13,7 +13,7 @@ import (
 func Router() http.Handler {
 	r := mux.NewRouter()
 	s := r.PathPrefix("/api/v1").Subrouter()
-	s.HandleFunc("/valuateHistory", helloWorld).Methods(http.MethodGet, http.MethodOptions)
+	s.HandleFunc("/valuateHistory", helloWorld).Methods("GET", "OPTIONS")
 	return logMiddleware(r)
 }
 type ValuteStruct struct {
@@ -29,6 +29,7 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	} else {
 		var body = MakeRequest(valuteStruct.Valute)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		fmt.Fprintf(w, string(body))
 	}
 }
