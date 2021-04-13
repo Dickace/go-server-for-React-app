@@ -33,7 +33,7 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 func MakeRequest(nameValute string) {
 	var date = time.Now()
 	var prevDate = time.Date(date.Year(),date.Month(),date.Day() - 20, date.Hour(),date.Minute(),date.Second(),date.Nanosecond(),date.Location())
-	var url = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1="+ prevDate.Format("2/1/2006")+"&date_req2=" + date.Format("2/1/2006") + "&VAL_NM_RQ="+ nameValute
+	var url = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1="+ prevDate.Format("02/01/2006")+"&date_req2=" + date.Format("02/01/2006") + "&VAL_NM_RQ="+ nameValute
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalln(err)
