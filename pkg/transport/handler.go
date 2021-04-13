@@ -44,7 +44,8 @@ func MakeRequest(nameValute string) {
 		log.Fatalln(err)
 	}
 
-	log.Println(string(body))
+	log.Println(url)
+	log.Println(body)
 }
 
 func logMiddleware(h http.Handler) http.Handler {
