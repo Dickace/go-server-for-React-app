@@ -1,11 +1,12 @@
 package transport
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/schema"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
-	"github.com/gorilla/schema"
 	"time"
 )
 
@@ -27,10 +28,11 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 	if err != nil{
 		log.Fatal(err)
 	} else {
-		MakeRequest(valuteStruct.Valute)
+		var body = MakeRequest(valuteStruct.Valute)
+		fmt.Fprintf(w, string(body))
 	}
 }
-func MakeRequest(nameValute string) {
+func MakeRequest(nameValute string) []byte {
 	var date = time.Now()
 	var prevDate = time.Date(date.Year(),date.Month(),date.Day() - 20, date.Hour(),date.Minute(),date.Second(),date.Nanosecond(),date.Location())
 	var url = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1="+ prevDate.Format("02/01/2006")+"&date_req2=" + date.Format("02/01/2006") + "&VAL_NM_RQ="+ nameValute
@@ -43,9 +45,8 @@ func MakeRequest(nameValute string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
 	log.Println(url)
-	log.Println(string(body))
+	return body
 }
 
 func logMiddleware(h http.Handler) http.Handler {
@@ -58,5 +59,6 @@ func logMiddleware(h http.Handler) http.Handler {
 		}).Info("got a new request")
 		h.ServeHTTP(w, r)
 	})
+
 
 }
