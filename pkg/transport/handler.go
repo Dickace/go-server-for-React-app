@@ -1,21 +1,25 @@
 package transport
 
 import (
-	"fmt"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"io/ioutil"
 	"net/http"
 )
 
 func Router() http.Handler {
 	r := mux.NewRouter()
 	s := r.PathPrefix("/api/v1").Subrouter()
-	s.HandleFunc("/hello", helloWorld).Methods(http.MethodGet)
+	s.HandleFunc("/valuateHistory", helloWorld).Methods(http.MethodGet)
 	return logMiddleware(r)
 }
 
-func helloWorld(w http.ResponseWriter, _ *http.Request) {
-	fmt.Fprint(w, "Hello world! Let's GO!")
+func helloWorld(w http.ResponseWriter, r *http.Request) {
+	requS, err:= ioutil.ReadAll(r.Body)
+	log.Print(requS)
+	if err != nil{
+		log.Fatal(err)
+	}
 }
 
 func logMiddleware(h http.Handler) http.Handler {
