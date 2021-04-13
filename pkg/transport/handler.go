@@ -13,7 +13,7 @@ import (
 func Router() http.Handler {
 	r := mux.NewRouter()
 	s := r.PathPrefix("/api/v1").Subrouter()
-	s.HandleFunc("/valuateHistory", helloWorld).Methods(http.MethodGet)
+	s.HandleFunc("/valuateHistory", helloWorld).Methods(http.MethodGet, http.MethodOptions)
 	return logMiddleware(r)
 }
 type ValuteStruct struct {
