@@ -8,13 +8,15 @@ import (
 	"os"
 )
 
-const serverUrl = ":8000"
+
 
 func main() {
+	var port = os.Getenv("PORT")
+
 	log.SetFormatter(&log.JSONFormatter{})
 	log.SetOutput(os.Stdout)
-	log.WithFields(log.Fields{"url": serverUrl}).Info("server start")
+	log.WithFields(log.Fields{"url": port}).Info("server start")
 	r := transport.Router()
-	fmt.Println(http.ListenAndServe(serverUrl, r))
+	fmt.Println(http.ListenAndServe(":"+port, r))
 
 }

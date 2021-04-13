@@ -1,6 +1,7 @@
 package transport
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -14,7 +15,7 @@ func Router() http.Handler {
 }
 
 func helloWorld(w http.ResponseWriter, _ *http.Request) {
-	//fmt.Fprint(w, "Hello world! Let's GO!")
+	fmt.Fprint(w, "Hello world! Let's GO!")
 }
 
 func logMiddleware(h http.Handler) http.Handler {
