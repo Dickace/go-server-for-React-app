@@ -3,8 +3,8 @@ package transport
 import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
-	"io/ioutil"
 	"net/http"
+	"github.com/gorilla/schema"
 )
 
 func Router() http.Handler {
@@ -13,12 +13,19 @@ func Router() http.Handler {
 	s.HandleFunc("/valuateHistory", helloWorld).Methods(http.MethodGet)
 	return logMiddleware(r)
 }
+type ValuteStruct struct {
+	Valute string
+}
+
+var decoder = schema.NewDecoder()
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-	requS, err:= ioutil.ReadAll(r.Body)
-	log.Print(requS)
+	var valuteStruct ValuteStruct
+	err := decoder.Decode(&valuteStruct, r.URL.Query())
 	if err != nil{
 		log.Fatal(err)
+	} else {
+		log.Println(valuteStruct)
 	}
 }
 
