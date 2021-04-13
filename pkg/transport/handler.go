@@ -21,11 +21,13 @@ var decoder = schema.NewDecoder()
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
 	var valuteStruct ValuteStruct
+	var valute = r.URL.Query()
 	err := decoder.Decode(&valuteStruct, r.URL.Query())
 	if err != nil{
 		log.Fatal(err)
 	} else {
 		log.Println(valuteStruct)
+		log.Println(valute)
 	}
 }
 
